@@ -10,9 +10,9 @@ $total_harga;
 //case
 if ($produk === "TV") {
     $total_harga = $jumlah * 4200000;
-} elseif ($produk = "kulkas") {
+} elseif ($produk === "kulkas") {
     $total_harga = $jumlah * 3100000;
-} elseif ($produk = "mesincuci") {
+} elseif ($produk === "mesincuci") {
     $total_harga = $jumlah * 3800000;
 } else {
     $total_harga =  "";
