@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KategoriProduk;
+use App\Models\Produk;
 use Illuminate\Http\Request;
 
 class ProdukController extends Controller
@@ -13,7 +15,13 @@ class ProdukController extends Controller
      */
     public function produk()
     {
-        return view('admin.produk.produk');
+        //return view('admin.produk.produk');
+
+        //jalanin fungsi getAllProduk
+        $produk = Produk::getAllProduk();
+
+        //kirim data ke view produk
+        return view('admin.produk.produk', compact('produk'));
     }
 
     /**
@@ -23,9 +31,15 @@ class ProdukController extends Controller
      */
     public function create()
     {
-        //
+        // simpen data tabel produkdari model
+        $produk = Produk::all();
+        // Simpan Data Tabel Kategori dari Model
+        $kategori_produk = KategoriProduk::all();
+        // Kirim data ke view Create
+        return view('admin.produk.create', compact('produk','kategori_produk'));
     }
 
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -34,7 +48,21 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //membuat tambah data
+        $produk = new Produk;
+        //akses kolom kode terus isi dengan data input kode user
+        $produk->kode = $request->kode;
+        $produk->nama = $request->nama;
+        $produk->harga_jual = $request->harga_jual;
+        $produk->harga_beli = $request->harga_beli;
+        $produk->stok = $request->stok;
+        $produk->min_stok = $request->min_stok;
+        $produk->deskripsi = $request->deskripsi;
+        $produk->kategori_produk_id = $request->kategori_produk_id;
+        //simpen data ke database
+        $produk->save();
+        //nampilin ke url produk
+        return redirect('produk');
     }
 
     /**
@@ -56,7 +84,13 @@ class ProdukController extends Controller
      */
     public function edit($id)
     {
-        //
+        //arahkan ke halaman edit
+        $kategori_produk = KategoriProduk::all();
+        $produk = Produk::where('id', $id)->get();
+        return view('admin.produk.edit', compact(
+            'produk',
+            'kategori_produk'
+        ));
     }
 
     /**
@@ -66,9 +100,19 @@ class ProdukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $produk = Produk::find($request->id);
+        $produk->kode = $request->kode;
+        $produk->nama = $request->nama;
+        $produk->harga_jual = $request->harga_jual;
+        $produk->harga_beli = $request->harga_beli;
+        $produk->stok = $request->stok;
+        $produk->min_stok = $request->min_stok;
+        $produk->deskripsi = $request->deskripsi;
+        $produk->kategori_produk_id = $request->kategori_produk_id;
+        $produk->save();
+        return redirect('produk');
     }
 
     /**
@@ -79,6 +123,9 @@ class ProdukController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $produk = Produk::find($id);
+        $produk->delete();
+
+        return redirect('produk')->with('success', 'Produk berhasil dihapus');
     }
 }

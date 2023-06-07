@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProdukController;
-use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutController;
 
 use Illuminate\Support\Facades\Route;
@@ -28,7 +28,20 @@ Route::get('/dashboard', [DashboardController::class, 'index']);
 Route::get('/produk', [ProdukController::class, 'produk']);
 
 //Routing ke Apphome Pake Controller
-Route::get('/welcome', [WelcomeController::class, 'welcome']);
+Route::get('/home', [HomeController::class, 'index']);
 
-//Routing ke Apphome Pake Controller
+//Routing ke Page About
 Route::get('/about', [AboutController::class, 'about']);
+
+//Routing ke Form Create
+Route::get('/produk/create', [ProdukController::class, 'create']);
+
+//Routing Tambah data Fungsi Store
+Route::post('/produk/store', [ProdukController::class, 'store']);
+
+//Routing Edit data 
+Route::get('produk/edit/{id}', [ProdukController::class, 'edit']);
+Route::put('/produk/update/{id}', [ProdukController::class, 'update']);
+
+//Routing Delete data 
+Route::get('/produk/delete/{id}', [ProdukController::class, 'destroy']);
