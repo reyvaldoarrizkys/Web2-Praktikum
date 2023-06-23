@@ -24,6 +24,11 @@ class ProdukController extends Controller
         return view('admin.produk.produk', compact('produk'));
     }
 
+    public function publicIndex(){
+        $produk = Produk::getAllProduk();
+        return view('tampilan', compact('produk'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
